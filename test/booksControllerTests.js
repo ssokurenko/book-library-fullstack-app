@@ -1,14 +1,14 @@
 const should = require('should');
 const sinon = require('sinon');
 
-describe('Book controller tests', function() {
-  describe('Post', function() {
+describe('Book controller tests', () => {
+  describe('Post', () => {
     const MockBook = function() {
-      this.save = function(){};
+      this.save = function() {};
     }
     const booksController = require('../controllers/booksController')(MockBook);
 
-    it('should create a new book', function() {
+    it('should create a new book', () => {
       const request = {
         body: {
           title: "New Book",
@@ -24,12 +24,10 @@ describe('Book controller tests', function() {
 
       booksController.post(request, response);
 
-      console.log('resp', response.body);
-
       response.status.calledWith(201).should.equal(true, 'Status should be 201');
     });
 
-    it('should not allow an emtpy title on POST', function() {
+    it('should not allow an emtpy title on POST', () => {
       const request = {
         body: {
           author: "John Doe"

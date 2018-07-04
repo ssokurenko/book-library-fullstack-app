@@ -17,6 +17,6 @@ const port = process.env.PORT || 3000;
 
 app.use('/api/books', booksRouter);
 
-app.listen(port, function () {
+app.listen(port, () => {
   console.log('The Server is running on PORT: ' + port);
 });

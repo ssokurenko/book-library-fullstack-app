@@ -1,5 +1,5 @@
 const booksController = function (Book) {
-  const _post = function(request, response) {
+  const _post = (request, response) => {
     const newBook = new Book(request.body);
 
     if (!request.body.title) {
@@ -13,7 +13,7 @@ const booksController = function (Book) {
     response.send(newBook);
   }
 
-  const _get = function(request, response) {
+  const _get = (request, response) => {
 
     let query = {};
 
@@ -22,13 +22,22 @@ const booksController = function (Book) {
     }
 
     request.query;
-    Book.find(query, function(error, books) {
+    Book.find(query, (error, books) => {
       if (error) {
         response.status(500).send(error);
         return;
       }
 
-      response.json(books);
+      const extendedBooks = [];
+
+      books.forEach(book => {
+        let theBook = book.toJSON();
+        theBook.links={};
+        theBook.links.self = '//' + request.headers.host + '/api/books/' + theBook._id;
+        extendedBooks.push(theBook);
+      })
+
+      response.json(extendedBooks);
     });
   };
 

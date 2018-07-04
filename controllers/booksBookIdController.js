@@ -1,14 +1,14 @@
 const booksBookIdController = function () {
-  const _get = function(request, response) {
+  const _get = (request, response) => {
     response.json(request.book);
   }
 
-  const _put = function(request, response) {
+  const _put = (request, response) => {
     request.book.title = request.body.title;
     request.book.author = request.body.author;
     request.book.genre = request.body.genre;
     request.book.isRead = request.body.isRead;
-    request.book.save(function (error) {
+    request.book.save(error => {
       if (error) {
         response.status(500).send(error);
         return;
@@ -18,7 +18,7 @@ const booksBookIdController = function () {
     })
   };
 
-  const _patch = function(request, response) {
+  const _patch = (request, response) => {
     if (request.body._id) {
       delete request.body._id;
     }
@@ -27,7 +27,7 @@ const booksBookIdController = function () {
       request.book[item] = request.body[item] || request.book[item];
     }
 
-    request.book.save(function (error) {
+    request.book.save(error => {
       if (error) {
         response.status(500).send(error);
         return;
@@ -37,8 +37,8 @@ const booksBookIdController = function () {
     });
   };
 
-  const _delete = function (request, response) {
-    request.book.remove(function(error) {
+  const _delete = (request, response) => {
+    request.book.remove(error => {
       if (error) {
         response.status(500).send(error);
         return;

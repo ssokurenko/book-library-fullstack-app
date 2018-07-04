@@ -11,7 +11,7 @@ const routes = function(Book) {
 
   router.use(
     '/:bookId',
-    function(request, response, next) {
+    (request, response, next) => {
       Book.findById(
         request.params.bookId,
         function(error, book) {
