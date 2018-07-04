@@ -2,31 +2,12 @@ const express = require('express');
 
 const routes = function(Book) {
   const router = express.Router();
+  const booksController = require('../controllers/booksController')(Book);
+  const booksBookIdController = require('../controllers/booksBookIdController')();
 
   router.route('/')
-    .post(function(request, response) {
-      const newBook = new Book(request.body);
-      newBook.save();
-      response.status(201).send(newBook);
-    })
-    .get(function(request, response) {
-
-      let query = {};
-
-      if (request.query.genre) {
-        query = request.query;
-      }
-
-      request.query;
-      Book.find(query, function(error, books) {
-        if (error) {
-          response.status(500).send(error);
-          return;
-        }
-
-        response.json(books);
-      });
-    });
+    .post(booksController.post)
+    .get(booksController.get);
 
   router.use(
     '/:bookId',
@@ -50,51 +31,10 @@ const routes = function(Book) {
     });
 
   router.route('/:bookId')
-    .get(function(request, response) {
-      response.json(request.book);
-    })
-    .put(function(request, response) {
-      request.book.title = request.body.title;
-      request.book.author = request.body.author;
-      request.book.genre = request.body.genre;
-      request.book.isRead = request.body.isRead;
-      request.book.save(function (error) {
-        if (error) {
-          response.status(500).send(error);
-          return;
-        }
-        
-        response.json(request.book);
-      })
-    })
-    .patch(function(request, response) {
-      if (request.body._id) {
-        delete request.body._id;
-      }
-
-      for (let item in request.body) {
-        request.book[item] = request.body[item] || request.book[item];
-      }
-
-      request.book.save(function (error) {
-        if (error) {
-          response.status(500).send(error);
-          return;
-        }
-
-        response.json(request.book);
-      });
-    })
-    .delete(function(request, response) {
-      request.book.remove(function(error) {
-        if (error) {
-          response.status(500).send(error);
-          return;
-        }
-
-        response.status(204).send('Removed');
-      });
-    });
+    .get(booksBookIdController.get)
+    .put(booksBookIdController.put)
+    .patch(booksBookIdController.patch)
+    .delete(booksBookIdController.delete);
 
   return router;
 }
