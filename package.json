@@ -6,7 +6,8 @@
   "main": "server.js",
   "scripts": {
     "start": "node server.js",
-    "serve": "nodemon ./server.js localhost 5000"
+    "serve": "nodemon ./server.js localhost 5000",
+    "test": "node ./node_modules/mocha/bin/mocha"
   },
   "author": "",
   "license": "ISC",
@@ -16,6 +17,9 @@
     "mongoose": "^5.2.0"
   },
   "devDependencies": {
-    "nodemon": "^1.17.5"
+    "mocha": "^5.2.0",
+    "nodemon": "^1.17.5",
+    "should": "^13.2.1",
+    "sinon": "^6.1.0"
   }
 }

@@ -1,8 +1,16 @@
 const booksController = function (Book) {
   const _post = function(request, response) {
     const newBook = new Book(request.body);
+
+    if (!request.body.title) {
+      response.status(400);
+      response.send('Title is required');
+      return;
+    }
+
     newBook.save();
-    response.status(201).send(newBook);
+    response.status(201);
+    response.send(newBook);
   }
 
   const _get = function(request, response) {
